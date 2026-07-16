@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doğu Baklacı — AI Product Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f7f6e3;
+      --ink: #262d29;
+      --yellow: #ffff48;
+      --ink-60: rgba(38,45,41,0.6);
+      --ink-30: rgba(38,45,41,0.3);
+      --ink-10: rgba(38,45,41,0.10);
+      --ink-06: rgba(38,45,41,0.06);
+      --max: 1280px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: var(--cream);
+      padding: 18px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s;
+    }
+    nav.scrolled { border-bottom-color: var(--ink-10); }
+
+    .nav-logo {
+      font-family: 'Inter', sans-serif;
+      font-size: 19px; font-weight: 600;
+      color: var(--ink); text-decoration: none;
+      letter-spacing: -0.025em;
+    }
+
+    .nav-links {
+      display: flex; gap: 4px; list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 400;
+      color: var(--ink); text-decoration: none;
+      padding: 8px 14px; border-radius: 8px;
+      transition: opacity .2s;
+    }
+    .nav-links a::before {
+      content: '';
+      width: 4px; height: 4px; border-radius: 50%;
+      border: 1px solid var(--ink);
+      flex-shrink: 0; opacity: .6;
+    }
+    .nav-links a:hover { opacity: .55; }
+
+    .pill-cta {
+      background: var(--yellow);
+      color: var(--ink);
+      border: none; border-radius: 9999px;
+      padding: 9px 20px;
+      font-size: 13px; font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer; text-decoration: none;
+      transition: opacity .2s; display: inline-block;
+    }
+    .pill-cta:hover { opacity: .82; }
+
+    .pill-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink-30);
+      border-radius: 9999px;
+      padding: 11px 26px;
+      font-size: 13px; font-weight: 400;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer; text-decoration: none;
+      transition: border-color .2s; display: inline-block;
+    }
+    .pill-ghost:hover { border-color: var(--ink); }
+
+    .pill-cta-lg {
+      background: var(--yellow);
+      color: var(--ink);
+      border: none; border-radius: 9999px;
+      padding: 14px 30px;
+      font-size: 14px; font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer; text-decoration: none;
+      transition: opacity .2s; display: inline-block;
+    }
+    .pill-cta-lg:hover { opacity: .82; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 160px 48px 100px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative;
+    }
+
+    /* scattered dots ambient decoration */
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 480px; height: 480px;
+      background-image:
+        radial-gradient(circle, var(--ink-10) 1.5px, transparent 1.5px),
+        radial-gradient(circle, var(--ink-06) 1px, transparent 1px);
+      background-size: 36px 36px, 18px 18px;
+      background-position: 0 0, 9px 9px;
+      mask-image: radial-gradient(ellipse 70% 70% at 70% 30%, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink); opacity: .55;
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 14px;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-eyebrow span {
+      display: inline-block;
+      width: 48px; height: 1px;
+      background: var(--ink); opacity: .35;
+    }
+
+    .hero-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(60px, 8.5vw, 118px);
+      line-height: 1.05;
+      letter-spacing: -.025em;
+      max-width: 920px;
+      margin-bottom: 28px;
+      animation: fadeUp .8s .1s ease both;
+    }
+    .hero-headline em { font-style: italic; }
+
+    .hero-sub {
+      font-size: 19px; font-weight: 400;
+      max-width: 540px; line-height: 1.6;
+      color: var(--ink); opacity: .68;
+      margin-bottom: 36px;
+      animation: fadeUp .8s .2s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 12px; align-items: center;
+      animation: fadeUp .8s .3s ease both;
+    }
+
+    /* ─── STATS STRIP ─── */
+    .stats-strip {
+      border-top: 1px solid var(--ink-10);
+      border-bottom: 1px solid var(--ink-10);
+    }
+    .stats-inner {
+      max-width: var(--max); margin: 0 auto;
+      padding: 44px 48px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 6px; }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px; font-weight: 400; line-height: 1;
+    }
+    .stat-label { font-size: 13px; opacity: .55; line-height: 1.45; font-weight: 400; }
+
+    /* ─── SHARED SECTION ─── */
+    .section {
+      max-width: var(--max); margin: 0 auto;
+      padding: 96px 48px;
+    }
+    .section-header {
+      display: flex; align-items: baseline; gap: 16px;
+      margin-bottom: 52px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px; font-weight: 400; line-height: 1.15;
+    }
+    .section-label {
+      font-size: 13px; font-weight: 500; opacity: .4;
+      letter-spacing: .07em; text-transform: uppercase;
+    }
+
+    /* ─── PROJECTS ─── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .proj-card {
+      border-radius: 37px;
+      border: 1px solid var(--ink-10);
+      background: var(--cream);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color .25s, transform .25s;
+    }
+    .proj-card:hover { border-color: var(--ink-30); transform: translateY(-2px); }
+
+    .proj-card.featured {
+      grid-column: span 2;
+      flex-direction: row;
+    }
+
+    /* placeholder image area */
+    .proj-thumb {
+      flex-shrink: 0;
+      background: var(--ink-06);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--ink-06);
+    }
+    .proj-card:not(.featured) .proj-thumb {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      border-bottom: 1px solid var(--ink-06);
+    }
+    .proj-card.featured .proj-thumb {
+      aspect-ratio: 1 / 1;
+      width: 44%;
+      flex-shrink: 0;
+      border-bottom: none;
+      border-right: 1px solid var(--ink-06);
+    }
+    @media (max-width: 960px) {
+      .proj-card.featured .proj-thumb {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--ink-06);
+      }
+    }
+    .proj-thumb-inner {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      width: calc(100% - 48px); height: calc(100% - 48px);
+      border: 1.5px dashed var(--ink-10);
+      border-radius: 20px;
+      margin: 24px;
+    }
+    .proj-thumb-inner svg { width: 28px; height: 28px; opacity: .22; }
+    .proj-thumb-inner span { font-size: 12px; opacity: .35; font-weight: 500; letter-spacing: .04em; }
+
+    .proj-body {
+      padding: 32px 37px 37px;
+      display: flex; flex-direction: column; gap: 14px;
+      flex: 1;
+    }
+
+    .proj-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; font-weight: 500;
+      padding: 3px 9px; border-radius: 9999px;
+      border: 1px solid var(--ink-10);
+      opacity: .65;
+    }
+
+    .proj-name {
+      font-size: 21px; font-weight: 600; line-height: 1.2;
+      letter-spacing: -.01em;
+    }
+    .proj-desc {
+      font-size: 14px; font-weight: 400;
+      line-height: 1.65; opacity: .68;
+    }
+
+    .proj-metrics {
+      display: flex; gap: 20px; flex-wrap: wrap;
+      padding-top: 8px; margin-top: auto;
+    }
+    .proj-metric { display: flex; flex-direction: column; gap: 2px; }
+    .metric-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px; font-weight: 400;
+    }
+    .metric-lbl {
+      font-size: 11px; opacity: .45;
+      font-weight: 500; text-transform: uppercase; letter-spacing: .05em;
+    }
+
+    .proj-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 500;
+      color: var(--ink); text-decoration: none;
+      opacity: .5; transition: opacity .2s;
+      margin-top: 4px;
+    }
+    .proj-link:hover { opacity: 1; }
+    .proj-link svg { flex-shrink: 0; }
+
+    /* ─── EXPERIENCE ─── */
+    .exp-item {
+      display: grid; grid-template-columns: 210px 1fr;
+      gap: 40px;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--ink-10);
+    }
+    .exp-item:first-child { border-top: 1px solid var(--ink-10); }
+
+    .exp-meta { display: flex; flex-direction: column; gap: 4px; padding-top: 4px; }
+    .exp-date { font-size: 12px; opacity: .45; }
+    .exp-company { font-size: 14px; font-weight: 600; margin-top: 4px; }
+    .exp-location { font-size: 12px; opacity: .38; }
+
+    .exp-role { font-size: 19px; font-weight: 500; margin-bottom: 8px; line-height: 1.3; }
+    .exp-desc { font-size: 14px; opacity: .65; line-height: 1.65; }
+    .exp-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .exp-chip {
+      font-size: 12px; font-weight: 500;
+      background: var(--yellow); color: var(--ink);
+      padding: 4px 11px; border-radius: 9999px;
+    }
+
+    /* ─── SKILLS ─── */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .skill-card {
+      border-radius: 37px;
+      border: 1px solid var(--ink-10);
+      padding: 37px;
+    }
+    .skill-cat {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      opacity: .45; margin-bottom: 20px;
+    }
+    .skill-chips { display: flex; gap: 7px; flex-wrap: wrap; }
+    .skill-chip {
+      font-size: 13px; font-weight: 400;
+      padding: 6px 13px; border-radius: 9999px;
+      border: 1px solid var(--ink-10);
+    }
+
+    /* ─── CERTS ─── */
+    .certs-row {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 48px;
+    }
+    .cert-badge {
+      font-size: 12px; font-weight: 500;
+      padding: 7px 14px; border-radius: 9999px;
+      border: 1px solid var(--ink-10);
+      opacity: .7;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-wrap {
+      border-top: 1px solid var(--ink-10);
+    }
+    .contact-inner {
+      max-width: var(--max); margin: 0 auto;
+      padding: 96px 48px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+    .contact-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px; font-weight: 400; line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .contact-sub {
+      font-size: 16px; opacity: .65; line-height: 1.7; margin-bottom: 32px;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 14px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 14px;
+      font-size: 15px; color: var(--ink); text-decoration: none;
+      opacity: .7; transition: opacity .2s;
+    }
+    .contact-link:hover { opacity: 1; }
+    .contact-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border: 1px solid var(--ink-10); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-style: normal;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--ink-10);
+      max-width: var(--max); margin: 0 auto;
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 13px; opacity: .38; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      font-size: 13px; color: var(--ink);
+      text-decoration: none; opacity: .38;
+      transition: opacity .2s;
+    }
+    .footer-links a:hover { opacity: .75; }
+
+    /* ─── ANIMATION ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+
+      .hero { padding: 130px 24px 80px; }
+
+      .stats-inner {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 36px 24px;
+      }
+
+      .section { padding: 64px 24px; }
+
+      .projects-grid { grid-template-columns: 1fr; }
+      .proj-card.featured { flex-direction: column; grid-column: span 1; }
+      .proj-card.featured .proj-thumb { width: 100%; min-height: 220px; border-right: none; border-bottom: 1px solid var(--ink-06); }
+
+      .skills-grid { grid-template-columns: 1fr; }
+
+      .exp-item { grid-template-columns: 1fr; gap: 10px; }
+
+      .contact-inner { grid-template-columns: 1fr; gap: 40px; padding: 64px 24px; }
+
+      footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-eyebrow, .hero-headline, .hero-sub, .hero-actions { animation: none; opacity: 1; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .proj-card:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Dogu Baklaci</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+    </ul>
+    <a href="mailto:dogubaklaci@gmail.com" class="pill-cta">Get in touch</a>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <p class="hero-eyebrow"><span></span> AI Product Manager · 0→1 Builder</p>
+    <h1 class="hero-headline">
+      Building AI<br>products that <em>scale.</em>
+    </h1>
+    <p class="hero-sub">
+      I turn complex problems into GenAI-powered solutions — from enterprise training platforms inside Sanofi to global medical research tools used by 10,000+ physicians worldwide.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="pill-cta-lg">See my work</a>
+      <a href="https://www.linkedin.com/in/dogubaklaci/" class="pill-ghost" target="_blank">LinkedIn</a>
+    </div>
+  </section>
+
+  <!-- ─── STATS STRIP ─── -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <span class="stat-number">70K+</span>
+        <span class="stat-label">Users across healthcare & insurance platforms</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">10K+</span>
+        <span class="stat-label">Physicians on InsightMD from 75+ countries</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">85%</span>
+        <span class="stat-label">FTE reduction via AI-powered training tools</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">4</span>
+        <span class="stat-label">Generative AI products built from zero</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PROJECTS ─── -->
+  <section class="section" id="projects">
+    <div class="section-header">
+      <h2 class="section-title">0→1 AI Products</h2>
+      <span class="section-label">Built from scratch</span>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- FEATURED: InsightMD -->
+      <div class="proj-card featured reveal">
+        <div class="proj-thumb">
+          <div class="proj-thumb-inner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>SCREENSHOT PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="tag">Healthcare AI</span>
+            <span class="tag">Global</span>
+            <span class="tag">Public Product</span>
+          </div>
+          <h3 class="proj-name">InsightMD</h3>
+          <p class="proj-desc">AI Medical Research Assistant built for physicians. Enables rapid literature synthesis, clinical insight extraction, and evidence-based decision support — available globally with no institutional login required. Reached 10,000 users across 75 countries within the first six months of launch.</p>
+          <div class="proj-metrics">
+            <div class="proj-metric">
+              <span class="metric-val">10K+</span>
+              <span class="metric-lbl">Global Users</span>
+            </div>
+            <div class="proj-metric">
+              <span class="metric-val">75+</span>
+              <span class="metric-lbl">Countries</span>
+            </div>
+            <div class="proj-metric">
+              <span class="metric-val">6mo</span>
+              <span class="metric-lbl">To reach scale</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RolePlay Trainer -->
+      <div class="proj-card reveal">
+        <div class="proj-thumb">
+          <div class="proj-thumb-inner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>SCREENSHOT PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="tag">Enterprise AI</span>
+            <span class="tag">Healthcare</span>
+            <span class="tag">Sanofi Internal</span>
+          </div>
+          <h3 class="proj-name">RolePlay Trainer</h3>
+          <p class="proj-desc">AI training platform for pharmaceutical sales reps. Reps roleplay with a dynamically generated AI doctor persona, receive real-time scoring on questioning and persuasion skills, and get structured coaching feedback — cutting annual training from 29 to 3 business days.</p>
+          <div class="proj-metrics">
+            <div class="proj-metric">
+              <span class="metric-val">85%</span>
+              <span class="metric-lbl">FTE Reduction</span>
+            </div>
+            <div class="proj-metric">
+              <span class="metric-val">130</span>
+              <span class="metric-lbl">Sales Reps</span>
+            </div>
+            <div class="proj-metric">
+              <span class="metric-val">29→3</span>
+              <span class="metric-lbl">Training Days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPES -->
+      <div class="proj-card reveal">
+        <div class="proj-thumb">
+          <div class="proj-thumb-inner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>SCREENSHOT PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="tag">Voice AI</span>
+            <span class="tag">LLM</span>
+            <span class="tag">Live Events</span>
+          </div>
+          <h3 class="proj-name">SPES — AI Event Moderator</h3>
+          <p class="proj-desc">Real-time AI moderator combining LLM, text-to-speech, and voice recognition. Used to facilitate live Sanofi medical events — managing Q&A, speaker transitions, and audience interaction autonomously with an AI avatar interface.</p>
+        </div>
+      </div>
+
+      <!-- VacayBase -->
+      <div class="proj-card reveal">
+        <div class="proj-thumb">
+          <div class="proj-thumb-inner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>SCREENSHOT PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="tag">Computer Vision</span>
+            <span class="tag">Travel Tech</span>
+            <span class="tag">GenAI</span>
+          </div>
+          <h3 class="proj-name">VacayBase</h3>
+          <p class="proj-desc">AI Landmark Recognition & Detection platform. Upload a travel photo and receive rich contextual information about the destination — history, practical tips, nearby attractions — powered by computer vision and generative AI.</p>
+        </div>
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- ─── EXPERIENCE ─── -->
+  <section class="section" id="experience">
+    <div class="section-header">
+      <h2 class="section-title">Experience</h2>
+      <span class="section-label">Career</span>
+    </div>
+
+    <div>
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">Jan 2025 — Present</span>
+          <span class="exp-company">Sanofi</span>
+          <span class="exp-location">Istanbul, Turkey</span>
+        </div>
+        <div>
+          <p class="exp-role">Omnichannel Marketing Operations Manager</p>
+          <p class="exp-desc">Owns the full omnichannel digital product ecosystem across 300+ annual campaigns in 10+ therapeutic areas. Designed HCP journey architecture across web, email, field, and content channels. Launched 2 internal GenAI tools saving $100K+ and reducing manual workload by 85%.</p>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">Sep 2025 — Feb 2026</span>
+          <span class="exp-company">Sanofi</span>
+          <span class="exp-location">Paris, France (Remote)</span>
+        </div>
+        <div>
+          <p class="exp-role">Jr. GenAI Global Product Owner</p>
+          <p class="exp-desc">Contributed to roadmap and lifecycle management of enterprise AI platforms at global scale. Participated in AI governance working groups, release management, and use-case validation across markets.</p>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">Nov 2022 — Jan 2025</span>
+          <span class="exp-company">Sanofi</span>
+          <span class="exp-location">Istanbul, Turkey</span>
+        </div>
+        <div>
+          <p class="exp-role">Mobile Apps & Websites Product Owner</p>
+          <p class="exp-desc">Owned product roadmap for HCP web platform (50K+ users) and mobile apps (20K+ users). Built 5+ product analytics dashboards guiding roadmap prioritization. Led sprint planning and cross-functional alignment across medical, brand, IT, and field teams.</p>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">Feb 2022 — Oct 2022</span>
+          <span class="exp-company">AXA Insurance</span>
+          <span class="exp-location">Istanbul, Turkey</span>
+        </div>
+        <div>
+          <p class="exp-role">Mobile & Growth Platforms Product Owner</p>
+          <p class="exp-desc">Managed 5 marketing channels, executed 20+ growth experiments, and increased digital sales from 5% to 20% through funnel optimization. Scaled content acquisition from 6M to 8M pageviews. Owned full product lifecycle for a fitness & insurance mobile app with 300K+ users.</p>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <span class="exp-date">Jul 2020 — Nov 2021</span>
+          <span class="exp-company">Dräger Medical</span>
+          <span class="exp-location">Istanbul, Turkey</span>
+        </div>
+        <div>
+          <p class="exp-role">Digital Marketing & Communications Specialist</p>
+          <p class="exp-desc">Led SEO, performance marketing, webinars, and digital campaigns across B2B/B2C healthcare. Reduced ad spend by 50% while doubling qualified leads. Produced in-house digital assets saving $50K in agency costs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SKILLS ─── -->
+  <section class="section" id="skills">
+    <div class="section-header">
+      <h2 class="section-title">Skills</h2>
+      <span class="section-label">Capabilities</span>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <p class="skill-cat">Product</p>
+        <div class="skill-chips">
+          <span class="skill-chip">Product Strategy</span>
+          <span class="skill-chip">Roadmapping</span>
+          <span class="skill-chip">Agile / Scrum</span>
+          <span class="skill-chip">Backlog Management</span>
+          <span class="skill-chip">Design Thinking</span>
+          <span class="skill-chip">MVP Lifecycle</span>
+          <span class="skill-chip">Stakeholder Mgmt</span>
+          <span class="skill-chip">Sprint Planning</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <p class="skill-cat">AI & Technical</p>
+        <div class="skill-chips">
+          <span class="skill-chip">GenAI Product Dev</span>
+          <span class="skill-chip">LLM Integrations</span>
+          <span class="skill-chip">Prompt Engineering</span>
+          <span class="skill-chip">Google Cloud / Gemini</span>
+          <span class="skill-chip">AI Governance</span>
+          <span class="skill-chip">SQL</span>
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">HTML / CSS</span>
+          <span class="skill-chip">Vibe Coding</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <p class="skill-cat">Growth & Analytics</p>
+        <div class="skill-chips">
+          <span class="skill-chip">GTM Planning</span>
+          <span class="skill-chip">A/B Testing</span>
+          <span class="skill-chip">Power BI</span>
+          <span class="skill-chip">Looker</span>
+          <span class="skill-chip">Jira / Confluence</span>
+          <span class="skill-chip">Figma</span>
+          <span class="skill-chip">SEO</span>
+          <span class="skill-chip">Performance Marketing</span>
+          <span class="skill-chip">CRM Automation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="certs-row reveal">
+      <span class="cert-badge">AI Product Manager — Product School</span>
+      <span class="cert-badge">Artificial Intelligence — IBM</span>
+      <span class="cert-badge">Agile & Scrum — IBM</span>
+      <span class="cert-badge">Digital Transformation — BCG</span>
+      <span class="cert-badge">Scrum: The Basics — PMI</span>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <div class="contact-wrap">
+    <div class="contact-inner">
+      <div class="reveal">
+        <h2 class="contact-headline">Let's build something together.</h2>
+        <p class="contact-sub">Open to AI product management, GenAI strategy, and 0→1 product development roles. Based in Lawrence, Kansas — authorized to work in the U.S.</p>
+        <a href="mailto:dogubaklaci@gmail.com" class="pill-cta-lg">Say hello</a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:dogubaklaci@gmail.com" class="contact-link">
+          <span class="contact-icon">✉</span>
+          dogubaklaci@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/dogubaklaci/" class="contact-link" target="_blank">
+          <span class="contact-icon">in</span>
+          linkedin.com/in/dogubaklaci
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="footer-copy">© 2026 Doğu Baklacı</span>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/dogubaklaci/" target="_blank">LinkedIn</a>
+      <a href="mailto:dogubaklaci@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Nav scroll state
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 24);
+    }, { passive: true });
+
+    // ── Scroll-triggered reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach((el, i) => {
+      // stagger sibling elements in grids
+      const siblings = el.parentElement.querySelectorAll('.reveal');
+      const idx = [...siblings].indexOf(el);
+      el.style.transitionDelay = idx > 0 ? `${idx * 0.07}s` : '0s';
+      io.observe(el);
+    });
+
+    // ── Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
